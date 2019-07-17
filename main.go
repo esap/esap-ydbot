@@ -52,7 +52,7 @@ func main() {
 
 	app.SetReceiver(&esap{})
 
-	http.HandleFunc("/", app.ServeHTTP)
+	http.HandleFunc("/", app.Receive)
 	http.HandleFunc("/p", func(w http.ResponseWriter, req *http.Request) {
 		pi := req.FormValue("id")
 		picfile := pi + ".jpg"
@@ -109,6 +109,7 @@ func getAnswer(msg string, uid string, robotName string, pic ...string) (string,
 
 	httpClient := http.Client{Timeout: 20 * time.Second}
 	u := remote + robotName + "?userid=" + uid + "&msg=" + url.QueryEscape(msg) + "&pic=" + pic[0]
+
 	resp, err := httpClient.Post(u, "", nil)
 	if err != nil {
 		fmt.Println("post-err:", err)
